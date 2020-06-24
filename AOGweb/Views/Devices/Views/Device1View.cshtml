@@ -1,0 +1,62 @@
+﻿@model Device1
+@Html.AntiForgeryToken()
+
+<input type="hidden" id="vID" value="@Model.MAC" />
+
+<div class="sect-room">
+    <button class="dev-room" onclick="event.stopPropagation(); roomClick('@Model.Room')">@Model.Room</button>
+    <img id="imgDots" class="img-dots" alt="dots" src="~/images/dots.png" />
+</div>
+<div class="sect-name">
+    <span id="vName" class="dev-name-edit text-blue" role="textbox" contenteditable>@Model.Name</span><img id="imgEdit" class="img-edit" src="~/images/edit.png" alt="edit" /><img id="imgOk" class="img-ok" src="~/images/ok.png" alt="ok" /><img id="imgCancel" class="img-cancel" src="~/images/cancel.png" alt="cancel" />
+    <br />
+    <label id="vErrorName" class="text-danger"></label>
+</div>
+
+<div class="row">
+    <div class="col temp">
+        <label>Temperature:</label>
+        <br />
+        <label>@Model.Temperature &#176;C</label>
+    </div>
+    <div class="col hum">
+        <label>Humidity:</label>
+        <br />
+        <label>@Model.Humidity %</label>
+    </div>
+</div>
+
+<div style="margin-top: 2rem">
+    <center>
+        @if ((DateTime.Now - Model.LastUpdate).TotalMinutes > 5)
+        {
+            <label class="text-danger mini-title">Cannot communicate with device</label>
+            <br />
+        }
+        else if (Model.ERROR != 0)
+        {
+            <label class="text-danger mini-title">Cannot read the data from sensor</label>
+            <br />
+        }
+        <label class="mini-title"><span class="text-blue">Last Updated:</span> @Model.LastUpdate</label>
+        @*<br />
+        <img class="img-refresh" src="~/images/refresh.svg" onclick="window.location.reload()" />*@
+    </center>
+</div>
+
+<div id="listEmails" class="sharing">
+    <label class="mini-title">Share your device</label>
+    @foreach (var email in TempData["shares"] as List<string>)
+    {
+        <div class="share-item">
+            &bull;&nbsp;<button class="nav-link text-dark share-email" onclick="removeShare('@email', this)">@email</button><img id="imgDelete" class="img-delete" src="~/images/cancel.png" alt="cancel" onclick="removeShare('@email', this)" />
+        </div>
+    }
+</div>
+<div class="share-item-add">
+    <input type="email" id="vShareEmail" class="input-email-style" placeholder="abc@address.domain"><img class="img-add" src="~/images/add.png" alt="add icon" onclick="shareEmail()">
+    <br />
+    <label id="vErrorShareEmail" class="text-danger mini-title"></label>
+</div>
+
+<partial name="Popup/OptionsDevice" />

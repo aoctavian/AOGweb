@@ -1,0 +1,118 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ewss</title>
+    <style type="text/css">
+        html {
+            font-size: 15px;
+            font-family: sans-serif;
+            color: #fff;
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            background-color: #fff;
+            height: 100%;
+        }
+
+        .bkg {
+            height: 100%;
+            background-image: url(../images/wallpaper.jpg);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            position: relative;
+        }
+
+        .container {
+            position: fixed;
+            left: 35%;
+            top: 50%;
+        }
+
+        .btn {
+            cursor: pointer;
+            display: inline-block;
+            font-weight: 400;
+            color: #212529;
+            text-align: center;
+            vertical-align: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-color: transparent;
+            border: 1px solid transparent;
+            padding: 0.6rem 2rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            border-radius: 0.25rem;
+            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .btn-primary {
+            color: #fff;
+            border-color: #fff;
+            margin-top: 1rem;
+            margin-right: 20px;
+        }
+
+            .btn-primary:hover {
+                color: #343a40;
+                background-color: #eee;
+                border-color: #ddd;
+            }
+
+        .border-top {
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .text-muted {
+            color: #6c757d !important;
+        }
+
+        .footer {
+            box-sizing: border-box;
+            position: absolute;
+            bottom: 0;
+            background-color: #fff;
+            padding-left: 15%;
+            width: 100%;
+            white-space: nowrap;
+            line-height: 60px; /* Vertically center the text there */
+        }
+    </style>
+    <script type="text/javascript">
+        function RedirectToDevices() { window.location.href = "https://" + window.location.hostname + "/Devices"; }
+        function RedirectToLogin() { window.location.href = "https://" + window.location.hostname + "/LogIn"; }
+        function RedirectToRegister() { window.location.href = "https://" + window.location.hostname + "/Register"; }
+    </script>
+</head>
+<body>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <script>RedirectToDevices();</script>
+    }
+
+    <div class="bkg">
+        <div class="container">
+            <h2>Start controlling all your devices today!</h2>
+            <button class="btn btn-primary" onclick="RedirectToLogin()">Log In</button>
+            <button class="btn btn-primary" onclick="RedirectToRegister()">Register</button>
+        </div>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="">
+            &copy; 2020 Ewss - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+</body>
+</html>

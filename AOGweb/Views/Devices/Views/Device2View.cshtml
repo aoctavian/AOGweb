@@ -1,0 +1,69 @@
+﻿@model Device2
+@Html.AntiForgeryToken()
+
+<input type="hidden" id="vID" value="@Model.MAC" />
+
+<div class="sect-room">
+    <button class="dev-room" onclick="event.stopPropagation(); roomClick('@Model.Room')">@Model.Room</button>
+    <img id="imgDots" class="img-dots" alt="dots" src="~/images/dots.png" />
+</div>
+<div class="sect-name">
+    <span id="vName" class="dev-name-edit text-blue" role="textbox" contenteditable>@Model.Name</span><img id="imgEdit" class="img-edit" src="~/images/edit.png" alt="edit" /><img id="imgOk" class="img-ok" src="~/images/ok.png" alt="ok" /><img id="imgCancel" class="img-cancel" src="~/images/cancel.png" alt="cancel" />
+    <br />
+    <label id="vErrorName" class="text-danger"></label>
+</div>
+
+<div class="row">
+    <div class="lightbulb">
+        <div class="switch">
+            <label onclick="event.stopPropagation();">
+                <input id="light1" asp-for="State1" onclick="UpdateLight1('@Model.MAC', this)" />
+                <img class="bulb" src="~/images/bulb.png" alt="light bulb" />
+                <span class="check"></span>
+                <span class="light off">Off</span>
+                <span class="light on">On</span>
+            </label>
+        </div>
+        <label>Light 1</label>
+    </div>
+    <div class="lightbulb">
+        <div class="switch">
+            <label onclick="event.stopPropagation();">
+                <input id="light2" asp-for="State2" onclick="UpdateLight2('@Model.MAC', this)" />
+                <img class="bulb" src="~/images/bulb.png" alt="light bulb" />
+                <span class="check"></span>
+                <span class="light off">Off</span>
+                <span class="light on">On</span>
+            </label>
+        </div>
+        <label>Light 2</label>
+    </div>
+</div>
+
+@if ((DateTime.Now - Model.LastUpdate).TotalMinutes > 5)
+{
+    <div style="margin-top: 2rem">
+        <center>
+            <label class="text-danger mini-title">Cannot communicate with device</label>
+            <br />
+            <label class="mini-title"><span class="text-blue">Last Request:</span> @Model.LastUpdate</label>
+        </center>
+    </div>
+}
+
+<div id="listEmails" class="sharing">
+    <label class="mini-title">Share your device</label>
+    @foreach (var email in TempData["shares"] as List<string>)
+    {
+        <div class="share-item">
+            &bull;&nbsp;<button class="nav-link text-dark share-email" onclick="removeShare('@email', this)">@email</button><img id="imgDelete" class="img-delete" src="~/images/cancel.png" alt="cancel" onclick="removeShare('@email', this)" />
+        </div>
+    }
+</div>
+<div class="share-item-add">
+    <input type="email" id="vShareEmail" class="input-email-style" placeholder="abc@address.domain"><img class="img-add" src="~/images/add.png" alt="add icon" onclick="shareEmail()">
+    <br />
+    <label id="vErrorShareEmail" class="text-danger mini-title"></label>
+</div>
+
+<partial name="Popup/OptionsDevice" />

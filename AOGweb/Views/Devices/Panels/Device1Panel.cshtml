@@ -1,0 +1,33 @@
+﻿@model Device1
+
+<button class="dev-room" onclick="event.stopPropagation(); roomClick('@Model.Room')">@Model.Room</button>
+@if (TempData["Owned"].ToString() == "False")
+{
+    <img class="img-view" src="~/images/lock.png" alt="view icon" onclick="event.stopPropagation();" title="You do not own this device" />
+}
+<label class="dev-name text-blue @TempData["Owned"].ToString()">&nbsp;&nbsp;@Model.Name</label>
+<div class="row">
+    <div class="col temp">
+        <label>Temperature:</label>
+        <br />
+        <label>@Model.Temperature &#176;C</label>
+    </div>
+    <div class="col hum">
+        <label>Humidity:</label>
+        <br />
+        <label>@Model.Humidity %</label>
+    </div>
+</div>
+
+@if ((DateTime.Now - Model.LastUpdate).TotalMinutes > 5)
+{
+    <center style="margin-top: 10px">
+        <label class="text-danger mini-title">Cannot communicate with device</label>
+    </center>
+}
+else if (Model.ERROR != 0)
+{
+    <center style="margin-top: 10px">
+        <label class="text-danger" style="font-size: 1.3rem">Cannot read the data from sensor</label>
+    </center>
+}

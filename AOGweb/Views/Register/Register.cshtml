@@ -1,0 +1,47 @@
+﻿@model UserRegister
+
+@{
+    ViewData["Title"] = "Register";
+}
+<center style="margin-top: -50px">
+    <label class="title">@ViewData["Title"]</label>
+    <hr />
+</center>
+<div class="row">
+    <div class="panel-form box-shadow">
+        <h3>Create a new account.</h3>
+        <form asp-action="Register" asp-route-ReturnUrl="@Context.Request.Query["ReturnUrl"]">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                @*<br />
+                    <input type="checkbox" onclick="togglePasswordVisibility()">Show Password*@
+                <input id="inputPwd" asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" class="control-label"></label>
+                @*<br />
+                    <input type="checkbox" onclick="togglePasswordVisibility()">Show Password*@
+                <input id="inputConfirmPwd" asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <input type="submit" value="Register" class="btn btn-primary" />
+        </form>
+    </div>
+</div>

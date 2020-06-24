@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Update account";
+}
+
+<center>
+    <label class="title">Update your account</label>
+    <hr />
+</center>
+<div class="row">
+    <partial name="UpdateAccount" model="@TempData["user"]" />
+    <partial name="UpdatePassword" model="@TempData["userPassword"]" />
+</div>

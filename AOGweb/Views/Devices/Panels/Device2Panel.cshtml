@@ -1,0 +1,42 @@
+﻿@model Device2
+@Html.AntiForgeryToken()
+
+<button class="dev-room" onclick="event.stopPropagation(); roomClick('@Model.Room')">@Model.Room</button>
+@if (TempData["Owned"].ToString() == "False")
+{
+    <img class="img-view" src="~/images/lock.png" alt="view icon" onclick="event.stopPropagation();" title="You do not own this device" />
+}
+<label class="dev-name text-blue @TempData["Owned"].ToString()">&nbsp;&nbsp;@Model.Name</label>
+<div class="row">
+    <div class="lightbulb">
+        <div class="switch">
+            <label onclick="event.stopPropagation();">
+                <input id="light1" asp-for="State1" onclick="UpdateLight1('@Model.MAC', this)" />
+                <img class="bulb" src="~/images/bulb.png" alt="light bulb" />
+                <span class="check"></span>
+                <span class="light off">Off</span>
+                <span class="light on">On</span>
+            </label>
+        </div>
+        <label>Light 1</label>
+    </div>
+    <div class="lightbulb">
+        <div class="switch">
+            <label onclick="event.stopPropagation();">
+                <input id="light2" asp-for="State2" onclick="UpdateLight2('@Model.MAC', this)" />
+                <img class="bulb" src="~/images/bulb.png" alt="light bulb" />
+                <span class="check"></span>
+                <span class="light off">Off</span>
+                <span class="light on">On</span>
+            </label>
+        </div>
+        <label>Light 2</label>
+    </div>
+</div>
+
+@if ((DateTime.Now - Model.LastUpdate).TotalMinutes > 5)
+{
+    <center style="margin-top: 10px">
+        <label class="text-danger mini-title">Cannot communicate with device</label>
+    </center>
+}

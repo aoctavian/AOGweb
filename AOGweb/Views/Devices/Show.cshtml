@@ -1,0 +1,16 @@
+﻿@model Device
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+@if (Model.GetType() == typeof(Device1))
+{
+    <partial name="Views/Device1View" model="@Model" />
+}
+else
+{
+    <partial name="Views/Device2View" model="@Model" />
+}
+
+<script src="~/js/devices.js" asp-append-version="true"></script>

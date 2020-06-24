@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Device>
+
+@{
+    ViewData["Title"] = "Devices";
+}
+
+<div class="panel-page box-shadow">
+    <label class="title">My Devices</label>&nbsp;<label id="countDevices" class="subtitle">(@Model.Count())</label>
+    <hr />
+    Room:
+    <select id="selectRoom" class="combobox">
+        @if (TempData["selectedRoom"].ToString() != "ALL")
+        {
+            <option class="text-dark">ALL</option>
+        }
+        <option selected>@TempData["selectedRoom"]</option>
+        @foreach (var room in TempData["rooms"] as List<string>)
+        {
+            if (room != TempData["selectedRoom"].ToString())
+            {
+                <option>@room</option>
+            }
+        }
+    </select>
+    &nbsp;<button id="updateRoom" class="btn-search">Search</button>
+</div>
+
+<div class="grid">
+    @{
+        List<UserDevices> devs = TempData["userDevices"] as List<UserDevices>;
+        foreach (var device in Model)
+        {
+            TempData["Owned"] = false;
+            var ud = devs.Find(ud => ud.DeviceMAC == device.MAC);
+            if (ud.OwnerID == int.Parse(User.Identity.Name))
+            {
+                TempData["Owned"] = true;
+            }
+            <div class="panel box-shadow @TempData["Owned"].ToString()" onclick="showDevice('@device.Name', '@TempData["Owned"].ToString()')">
+                @if (device.GetType() == typeof(Device1))
+                {
+                <partial name="Panels/Device1Panel" model="@device" />
+                }
+                else
+                {
+                <partial name="Panels/Device2Panel" model="@device" />
+                }
+            </div>
+        }
+    }
+</div>
+
+<a class="fixed-button" onclick="addDevicePopup()">+</a>
+<partial name="Popup/AddDevice" model="@TempData["rooms"]" />
+
+<script src="~/js/devices.js" asp-append-version="true"></script>
+<script src="~/js/masonry.pkgd.js"></script>
