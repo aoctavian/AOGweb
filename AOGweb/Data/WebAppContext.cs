@@ -21,7 +21,7 @@ namespace AOGweb.Data
         {
             modelBuilder.Entity<Device>().ToTable("device");
             modelBuilder.Entity<User>().ToTable("user");
-            modelBuilder.Entity<UserDevices>().ToTable("userDevices").HasKey(k => new { k.OwnerID, k.DeviceMAC });
+            modelBuilder.Entity<UserDevices>().ToTable("userDevices").HasKey(k => new { k.UserID, k.DeviceMAC });
             modelBuilder.Entity<Device>().HasDiscriminator<string>("DeviceTYPE");
         }
 

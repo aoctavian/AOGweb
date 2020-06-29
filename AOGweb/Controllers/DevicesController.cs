@@ -150,12 +150,9 @@ namespace AOGweb.Controllers
                 return -1; //invalid ID
             }
 
-            //var userDevice = await _context.UserDevices.SingleOrDefaultAsync(ud => ud.UserID == int.Parse(User.Identity.Name) && ud.OwnerID == int.Parse(User.Identity.Name) && ud.DeviceMAC == deviceID);
             var entries = await _context.UserDevices.Where(ud => ud.OwnerID == int.Parse(User.Identity.Name) && ud.DeviceMAC == deviceID).Select(ud => ud).ToListAsync();
-            //if (userDevice != null)
-            if(entries.Count > 0)
+            if (entries.Count > 0)
             {
-                //_context.UserDevices.Remove(userDevice);
                 _context.UserDevices.RemoveRange(entries);
                 device.Name = null;
                 device.Room = null;
