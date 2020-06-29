@@ -18,9 +18,11 @@ namespace AOGweb.Models
         public DateTime SettingTime { get; set; }
 
         [StringLength(50, ErrorMessage = "Room name cannot be longer than 50 characters.")]
+        [RegularExpression(@"^\w+$", ErrorMessage = "Only letters and numbers are allowed.")]
         public string Room { get; set; }
 
         [StringLength(50, ErrorMessage = "Device name cannot be longer than 50 characters.")]
+        [RegularExpression(@"^\w+$", ErrorMessage = "Only letters and numbers are allowed.")]
         public string Name { get; set; }
     }
 }
