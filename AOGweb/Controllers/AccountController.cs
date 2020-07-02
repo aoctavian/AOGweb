@@ -37,7 +37,7 @@ namespace AOGweb.Controllers
                 using var _context = new WebAppContext();
                 var me = await _context.Users.FindAsync(int.Parse(User.Identity.Name));
 
-                if (me.Password != user.Password)
+                if (me.Password != MD5Crypt.GetMD5Hash(user.Password))
                 {
                     ModelState.AddModelError("Password", "Incorrect account password.");
                     return View(nameof(Update));
@@ -64,7 +64,6 @@ namespace AOGweb.Controllers
                         new Claim(ClaimTypes.Name, me.ID.ToString()),
                         new Claim("FirstName", me.FirstName),
                         new Claim("Email", me.Email),
-                        new Claim("Password", me.Password),
                         new Claim(ClaimTypes.Role, "User")
                     }, CookieAuthenticationDefaults.AuthenticationScheme);
                     var principal = new ClaimsPrincipal(identity);
@@ -90,19 +89,19 @@ namespace AOGweb.Controllers
                 using var _context = new WebAppContext();
                 var me = await _context.Users.FindAsync(int.Parse(User.Identity.Name));
 
-                if(me.Password != user.OldPassword)
+                if(me.Password != MD5Crypt.GetMD5Hash(user.OldPassword))
                 {
                     ModelState.AddModelError("OldPassword", "Incorrect account old password.");
                     return View(nameof(Update));
                 }
 
-                if (me.Password == user.NewPassword)
+                if (me.Password == MD5Crypt.GetMD5Hash(user.NewPassword))
                 {
                     ModelState.AddModelError("NewPassword", "Old and new passwords are the same.");
                     return View(nameof(Update));
                 }
 
-                me.Password = user.NewPassword;
+                me.Password = MD5Crypt.GetMD5Hash(user.NewPassword);
                 try
                 {
                     await _context.SaveChangesAsync();
@@ -112,7 +111,6 @@ namespace AOGweb.Controllers
                         new Claim(ClaimTypes.Name, me.ID.ToString()),
                         new Claim("FirstName", me.FirstName),
                         new Claim("Email", me.Email),
-                        new Claim("Password", me.Password),
                         new Claim(ClaimTypes.Role, "User")
                     }, CookieAuthenticationDefaults.AuthenticationScheme);
                     var principal = new ClaimsPrincipal(identity);
