@@ -18,7 +18,7 @@
         <div class="switch">
             <label onclick="event.stopPropagation();">
                 <input id="light1" asp-for="State1" onclick="UpdateLight1('@Model.MAC', this)" />
-                <img class="bulb" src="~/images/bulb.png" alt="light bulb" />
+                @*<img class="bulb" src="~/images/bulb.png" alt="light bulb" />*@
                 <span class="check"></span>
                 <span class="light off">Off</span>
                 <span class="light on">On</span>
@@ -30,7 +30,7 @@
         <div class="switch">
             <label onclick="event.stopPropagation();">
                 <input id="light2" asp-for="State2" onclick="UpdateLight2('@Model.MAC', this)" />
-                <img class="bulb" src="~/images/bulb.png" alt="light bulb" />
+                @*<img class="bulb" src="~/images/bulb.png" alt="light bulb" />*@
                 <span class="check"></span>
                 <span class="light off">Off</span>
                 <span class="light on">On</span>
